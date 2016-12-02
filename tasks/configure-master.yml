@@ -27,7 +27,7 @@
   when: postgresql_cluster_symlink_src|length > 0
 
 - name: "Stage 2: check cluster directory"
-  stat: path={{ postgresql_data_dir }}
+  stat: path={{ postgresql_data_dir }}/postgresql.conf
   register: postgresql_data_stat
 
 - name: "Stage 2: initialize new postgresql cluster"
