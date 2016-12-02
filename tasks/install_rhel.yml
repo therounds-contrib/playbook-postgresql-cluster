@@ -8,7 +8,7 @@
   debug: msg="The following package manager {{ ansible_pkg_mgr }} is not supported" fail=yes
   when: not ansible_pkg_mgr == "yum"
 
-- name: "Stage 1: install repository package"
+- name: "Stage 1: install repository package - postgresql_repo_{{ ansible_distribution }}"
   yum: 
     state: present
     pkg: "{{ item.repo }}"
