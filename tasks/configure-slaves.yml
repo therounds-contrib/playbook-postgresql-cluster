@@ -35,8 +35,12 @@
     group: "{{ postgresql_admin_user }}"
     mode: 0600
 
+- name: "Stage 3: get master ip address"
+  set_fact:
+    master_ip: "{{ hostvars[groups['streaming-master'][0]]['ansible_default_ipv4']['address'] }}"
+
 - name: "Stage 3: initialize new postgresql cluster"
-  command: "sudo -u postgres pg_basebackup -c fast -X stream -h {{ postgresql_streaming_master }} -U {{ postgresql_streaming_user.name }} -D {{ postgresql_data_dir }}"
+  command: "sudo -u postgres pg_basebackup -c fast -X stream -h {{ master_ip }} -U {{ postgresql_streaming_user.name }} -D {{ postgresql_data_dir }}"
 
 - name: "Stage 3: configure pg_hba.conf"
   template:

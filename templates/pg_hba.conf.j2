@@ -81,8 +81,8 @@
 {{ connection.type }}	{{ connection.database }}		{{ connection.role }}		{{ connection.address }}		{{ connection.method }}
 {% endfor %}
 
-{% for slave in postgresql_streaming_slaves %}
-host	replication		{{ postgresql_streaming_user.name }}		{{ slave }}/32		{{ postgresql_default_ipv4_auth_method }}
+{% for slave in groups['streaming-slaves'] %}
+host	replication		{{ postgresql_streaming_user.name }}		{{ hostvars[slave]['ansible_default_ipv4']['address'] }}/32		{{ postgresql_default_ipv4_auth_method }}
 {% endfor %}
 
 # Custom
