@@ -1,8 +1,8 @@
 ---
 # Install and setup PostgreSQL with Streaming Replication
 - hosts: all
-  sudo: yes
-  sudo_user: root
+  become: yes
+  become_user: root
   vars_files:
     - 'defaults/main.yml'
     - 'defaults/repo.yml'
@@ -10,8 +10,8 @@
   - include: 'tasks/install.yml'
 
 - hosts: streaming-master
-  sudo: yes
-  sudo_user: root
+  become: yes
+  become_user: root
   vars_files:
     - 'defaults/main.yml'
   tasks:
@@ -21,8 +21,8 @@
   - include: 'tasks/databases.yml'
 
 - hosts: streaming-slaves
-  sudo: yes
-  sudo_user: root
+  become: yes
+  become_user: root
   vars_files:
     - 'defaults/main.yml'
   tasks:

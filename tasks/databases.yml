@@ -13,8 +13,8 @@
   when: postgresql_databases and postgresql_databases|length > 0
 
 - name: "Stage: 4: add extensions"
-  sudo: yes
-  sudo_user: "{{ postgresql_admin_user }}"
+  become: yes
+  become_user: "{{ postgresql_admin_user }}"
   command: "psql {{ item[0].name }} -c 'CREATE EXTENSION IF NOT EXISTS {{ item[1] }}'"
   with_nested:
     - "{{ postgresql_databases }}"
