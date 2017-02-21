@@ -4,9 +4,9 @@
   become: yes
   become_user: root
   vars:
-    - postgresql_users
-    - postgresql_streaming_user
-    - postgresql_users
+    postgresql_users
+    postgresql_streaming_user
+    postgresql_users
   vars_files:
     - 'defaults/main.yml'
     - 'defaults/repo.yml'
