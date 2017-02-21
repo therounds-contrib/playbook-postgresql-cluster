@@ -3,12 +3,6 @@
 - hosts: all
   become: yes
   become_user: root
-  vars:
-    postgresql_users: []
-    postgresql_streaming_user:
-      name: replica,
-      pass": replica_pass
-    postgresql_pg_hba_custom: []
   vars_files:
     - 'defaults/main.yml'
     - 'defaults/repo.yml'
