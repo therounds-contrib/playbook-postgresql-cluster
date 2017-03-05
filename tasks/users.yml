@@ -2,11 +2,17 @@
 
 - name: "Stage 3: add postgresql roles"
   postgresql_user:
+    db: "{{ item.db }}"
     state: present
     name: "{{ item.name }}"
     encrypted: no
     password: "{{ item.pass }}"
     role_attr_flags: "{{ item.flags }}"
+  with_items: "{{ postgresql_users }}"
+  when: postgresql_users and postgresql_users|length > 0
+
+- name: "Stage 3: set search_path for users"
+  command: psql -U postgres -c 'ALTER ROLE "{{ item.name }}" SET search_path TO "$user",{{ item.search_path|join(",") }};'
   with_items: "{{ postgresql_users }}"
   when: postgresql_users and postgresql_users|length > 0
 

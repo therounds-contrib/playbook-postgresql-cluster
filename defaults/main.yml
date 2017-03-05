@@ -20,7 +20,7 @@ postgresql_streaming_user:
 # PostgreSQL users and roles
 postgresql_admin_user: "postgres"
 postgresql_users:
-# - { name: "johndoe", pass: "test1234", flags: "LOGIN,SUPERUSER" }
+# - { name: "johndoe", pass: "test1234", flags: "LOGIN,SUPERUSER", db: 'database', search_path: ['search', 'path'] }
 
 # PostgreSQL databases and settings. Do not remove template, encoding, collate, ctype options from postgresql_database because it most certainly lead to Ansible role inoperability.
 postgresql_encoding: UTF8
