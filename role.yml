@@ -10,17 +10,30 @@
   - include: 'tasks/install.yml'
 
 - hosts: streaming-master
+  tasks:
+  - add_host:
+      name: "{{ inventory_hostname }}"
+      groups: master
+
+- hosts: streaming-slaves
+  tasks:
+  - add_host:
+      name: "{{ inventory_hostname }}"
+      groups: slaves
+
+- hosts: master
   become: yes
   become_user: root
   vars_files:
     - 'defaults/main.yml'
   tasks:
   - group_by: key=os_{{ ansible_os_family }}
+  - group_by: key=
   - include: 'tasks/configure-master.yml'
   - include: 'tasks/users.yml'
   - include: 'tasks/databases.yml'
 
-- hosts: streaming-slaves
+- hosts: slaves
   become: yes
   become_user: root
   vars_files:
