@@ -2,7 +2,6 @@
 
 - name: "Stage 3: add postgresql roles"
   postgresql_user:
-    db: "{{ item.db }}"
     state: present
     name: "{{ item.name }}"
     encrypted: no
