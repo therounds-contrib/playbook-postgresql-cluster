@@ -17,8 +17,8 @@
   tasks:
   - group_by: key=os_{{ ansible_os_family }}
   - include: 'tasks/configure-master.yml'
-  - include: 'tasks/databases.yml'
   - include: 'tasks/users.yml'
+  - include: 'tasks/databases.yml'
 
 - hosts: streaming-slaves
   become: yes

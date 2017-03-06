@@ -20,3 +20,8 @@
     - "{{ postgresql_databases }}"
     - "{{ postgresql_extensions }}"
   when: postgresql_databases and postgresql_databases|length > 0 and postgresql_extensions and postgresql_extensions|length > 0 and postgresql_version != '8.4'
+
+- name: "Stage 4: set search_path for users"
+  command: psql -U postgres -c 'ALTER ROLE "{{ item.name }}" SET search_path TO "$user",{{ item.search_path|join(",") }};'
+  with_items: "{{ postgresql_users }}"
+  when: postgresql_users and postgresql_users|length > 0
