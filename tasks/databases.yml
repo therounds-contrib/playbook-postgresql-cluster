@@ -12,6 +12,27 @@
   with_items: "{{ postgresql_databases }}"
   when: postgresql_databases and postgresql_databases|length > 0
 
+- name: "Stage 4: Update database permissions"
+  postgresql_privs:
+    db: "{{ item.db }}"
+    privs: ALL
+    type: database
+    obj: "{{ item.db }}"
+    role: "{{ item.name }}"
+    password: "{{ item.pass }}"
+  with_items:
+    - "{{ postgresql_users }}"
+  when: postgresql_users and postgresql_users|length > 0 and postgresql_databases and postgresql_databases|length > 0
+
+- name: "Stage 4: update postgresql roles"
+  postgresql_user:
+    db: "{{ item.db|default(omit) }}"
+    state: present
+    name: "{{ item.name }}"
+    password: "{{ item.pass }}"
+  with_items: "{{ postgresql_users }}"
+  when: postgresql_users and postgresql_users|length > 0
+
 - name: "Stage: 4: add extensions"
   become: yes
   become_user: "{{ postgresql_admin_user }}"
@@ -20,14 +41,6 @@
     - "{{ postgresql_databases }}"
     - "{{ postgresql_extensions }}"
   when: postgresql_databases and postgresql_databases|length > 0 and postgresql_extensions and postgresql_extensions|length > 0 and postgresql_version != '8.4'
-
-- name: "Stage 4: update postgresql roles"
-  postgresql_user:
-    db: "{{ item.db|default(omit) }}"
-    state: present
-    name: "{{ item.name }}"
-  with_items: "{{ postgresql_users }}"
-  when: postgresql_users and postgresql_users|length > 0
 
 - name: "Stage 4: set search_path for users"
   command: psql -U postgres -c 'ALTER ROLE "{{ item.name }}" SET search_path TO "$user",{{ item.search_path|join(",") }};'
