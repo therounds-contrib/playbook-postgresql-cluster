@@ -56,3 +56,10 @@ postgresql_conf_default_guc:
   - { regexp: "^#?max_wal_senders = .*$", guc: "max_wal_senders = {{ groups['slaves']|length * 5 }}" }
   - { regexp: "^#?wal_keep_segments = .*$", guc: "wal_keep_segments = {{ 256 }}" }
   - { regexp: "^#?hot_standby = .*$", guc: "hot_standby = {{ 'on' }}" }
+# Tuning
+  - { regexp: "^#?maintenance_work_mem = .*$", guc: "maintenance_work_mem = 832MB" }
+  - { regexp: "^#?checkpoint_completion_target = .*$", guc: "checkpoint_completion_target = 0.9" }
+  - { regexp: "^#?effective_cache_size = .*$", guc: "effective_cache_size = 10GB"}
+  - { regexp: "^#?work_mem = .*$", guc: "work_mem = 6656kB"}
+  - { regexp: "^#?shared_buffers = .*$", guc: "shared_buffers = 3328MB" }
+  - { regexp: "^#?max_connections = .*$", guc: "max_connections = 1024" }
