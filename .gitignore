@@ -1,3 +1,4 @@
 # Ignore vim editor swapfiles
 .*.sw*
 .sw*
+.vagrant/
